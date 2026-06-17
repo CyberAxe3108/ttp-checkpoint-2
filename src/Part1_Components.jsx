@@ -40,6 +40,8 @@ function SectionA() {
   //      If you don't embed the value correctly,
   //      React treats the text literally and prints the
   //      variable name instead of its value.
+  const myName = 'Crismar'
+  const myCity = 'Brooklyn'
 
 
   // A3.
@@ -56,12 +58,21 @@ function SectionA() {
   // EXPLAIN: What is JSX? How is it different from plain HTML?
   //          Why do you need curly braces to embed a variable's value?
   //
-  //          answer:
+  //          answer: JSX is JavaScript files that allows us to write HTML structures in Javascript code.
+              // 2. The Browser cannot read JSX directly unlike HTML, JSX has to be transformed into Javascript
+              //3. to tell the program that whatever is inside the curly braces needs to be read as JavaScript code.
 
+  const result = 25 + 17
   return (
     <div>
       <h2>Section A — JSX Basics</h2>
-      {/* Your output goes below this line */}
+      <p>{myName.toUpperCase()}</p>
+
+      <p>{myCity}</p>
+
+      <p>{myName.length}</p>
+
+      <p>25 + 17 = {result}</p>
 
     </div>
   )
@@ -86,6 +97,19 @@ function SectionA() {
 //     (href="#" is fine — we are not building real links yet)
 //
 // Write PageHeader here:
+function PageHeader(){
+
+  return(
+    <header>
+      <h1>My React App</h1>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </nav>
+    </header>
+  )
+}
 
 
 // B2.
@@ -94,6 +118,14 @@ function SectionA() {
 //
 // Write PageFooter here:
 
+function PageFooter(){
+
+  return(
+    <footer>
+      <p> 2026 TTP </p>
+    </footer>
+  )
+}
 
 function SectionB() {
   // B3.
@@ -104,14 +136,15 @@ function SectionB() {
   //          Why do we split UI into separate components instead of
   //          writing everything inside one big function?
   //
-  //          answer:
+  //          answer: 1. A component is a function that returns JSX
+                  //  2. its easier to read, separates the functions of the UI, and easier to reuse the functions of the program if necessary.
 
 
   return (
     <div>
       <h2>Section B — Your Own Components</h2>
-      {/* Render your components below */}
-
+      {<PageHeader />}
+      {<PageFooter />}
     </div>
   )
 }
