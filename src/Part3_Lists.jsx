@@ -91,7 +91,7 @@ function SectionA() {
 function PlayerRow(props){
 
   return(
-    <div>
+    <div style={{color:"black"}}>
       {props.name} - Score: {props.score}
     </div>
   )
