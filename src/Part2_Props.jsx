@@ -25,15 +25,25 @@
 // The StudentBadge component below is hardcoded — it always shows the same text.
 // we will update this soon.
 
-function StudentBadge() {
+function StudentBadge(props) {
   return (
     <div>
-      <h3>Student Name</h3>
-      <p>Grade: 0</p>
+        <h3>Student Name: {props.name}</h3>
+      <p>Grade: {props.grade}</p>
     </div>
   )
 }
 
+
+function TeacherCard(props){
+
+  return(
+    <>
+    <h3> Professor's Name: {props.pname}</h3>
+    <p>Subject: {props.subject}</p>
+    </>
+  )
+}
 function SectionA() {
   // A1.
   // Render StudentBadge three times in the return statement below.
@@ -62,15 +72,19 @@ function SectionA() {
   //          Can you change a prop's value inside the component that receives it?
   //          Why or why not?
   //
-  //          answer:
+  //          answer: 1. Props are the arguements that are passed from a component when the function is called inside a return.
+                  //  2. No, we cannot change the value inside the component because the component only reads the props whenthey
+                  //     are passed when the parent defines it.
 
   return (
     <div>
       <h2>Section A — Props</h2>
-      <StudentBadge />
-      {/* A1 + A2: Render two more StudentBadge components here */}
+      <StudentBadge  name="James Johnson" grade="86"/>
+      <StudentBadge name="Katie Holmes" grade="98"/>
+      <StudentBadge name="Jordan Sanders" grade="65"/>
 
-      {/* A3: Render your TeacherCard here */}
+
+      <TeacherCard pname ="Katherine Saint James" subject="Biology" />
 
     </div>
   )
@@ -99,7 +113,25 @@ function SectionA() {
 //       then embed that variable in your JSX.
 //
 // Write PlayerCard here:
+function PlayerCard(props){
+  let status
+  if(props.isActive){
+    status = "Active";
+  }else{
+    status = "Inactive";
+  }
 
+  
+  return(
+    <div>
+      <h3>Player's Name: {props.name}</h3>
+      <p>Player's Score: {props.score}</p>
+      <p>Player's Status: {status}</p>
+    </div>
+
+  )
+
+}
 
 
 function SectionB() {
@@ -111,7 +143,9 @@ function SectionB() {
   return (
     <div>
       <h2>Section B — Props with Different Types</h2>
-      {/* Render your PlayerCard components here */}
+      <PlayerCard name="Iker Casillas" score={ 175} isActive={false} />
+      <PlayerCard name="Sergio Ramos" score={ 102} isActive={true} />
+      <PlayerCard name="Lionel Messi" score={ 200} isActive={true} />
 
     </div>
   )
