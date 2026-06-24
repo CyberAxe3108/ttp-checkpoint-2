@@ -51,9 +51,13 @@ function Counter() {
   //      to update it. When you call the update function, React re-renders
   //      the component and shows the new value on the page.
 
+  const [count, setCount] = useState(0)
+
   // A2.
   // Add a button that says "Add 1".
   // When clicked, it should increase count by 1.
+
+  
 
   // A3.
   // Add a second button that says "Reset".
@@ -64,10 +68,10 @@ function Counter() {
   return (
     <div>
       {/* A1: remove the hardcoded 0 with the state */}
-      <h3>Count: 0</h3>
-      {/* A2: Add 1 button */}
+      <h3>Count: {count} </h3>
+      <button onClick={() => setCount(count + 1)} style={{color: "black"}}> Add 1 </button>
 
-      {/* A3: Reset button */}
+      <button onClick={() => setCount(0)}  style={{color: "black"}}> Reset </button>
 
     </div>
   )
@@ -78,7 +82,9 @@ function SectionA() {
   //          How is a state variable different from a regular variable?
   //          What happens on the page when you call the updater function?
   //
-  //          answer:
+  //          answer:1. State is data that a component remembers between renders. When state changes, React re-runs the component function and updates the page to reflect the new value.
+  //          2. A regular variable is reset to its initial value every time the component re-renders.
+  //          3. React queues a re-render.
 
   return (
     <div>
@@ -105,6 +111,8 @@ function MoodPicker() {
   // Declare a state variable called mood with an initial value of your choice
   // (a string, like "neutral").
 
+  const [mood, setMood] = useState("neutral")
+
   // B2.
   // Add three buttons: "Happy", "Sad", and "Excited".
   // Each button needs its own click handler that sets mood to that
@@ -122,13 +130,15 @@ function MoodPicker() {
   // EXPLAIN: How can three different buttons all update the same state variable?
   //          What is actually different between this component and Counter?
   //
-  //          answer:
+  //          answer:  All three call the exact same setMood function, just with a different argument each time.
+  //        
 
   return (
     <div>
-      {/* B2: three buttons go here */}
-
-      {/* B3: mood display goes here */}
+      <button onClick={() => setMood('Happy')} style={{color:"black"}}>Happy</button>
+      <button onClick={() => setMood('Sad')} style={{color:"black"}}>Sad</button>
+      <button onClick={() => setMood('Excited')} style={{color:"black"}}>Excited</button>
+      <p> Current Mood: {mood} </p>
 
     </div>
   )
@@ -158,6 +168,7 @@ function SectionB() {
 function NameInput() {
   // C1.
   // Declare a state variable called inputValue. Choose an appropriate initial value.
+  const [inputValue, setInput] = useState('Text')
 
   // C2.
   // Add an input element.
@@ -176,13 +187,21 @@ function NameInput() {
   // EXPLAIN: What is a controlled input?
   //          What would happen if the input's displayed value did not come from state?
   //
-  //          answer:
+  //          answer: A controlled input is an input element whose value is completely driven and managed by React state, rather than the browser's internal DOM state.
+  //          2. The input becomes uncontrolled, the browser manages its own internal value independently of React. Your state and the DOM can drift out of sync.
 
   return (
     <div>
-      {/* C2: input goes here */}
+      <input 
+      type="text"
+      placeholder="text"
+      value={inputValue}
+      onChange={(e) => setInput(e.target.value)}
+      >
+      
+      </input>
 
-      {/* C3: display text goes here */}
+      <p>Text: {inputValue}</p>
 
     </div>
   )
@@ -211,7 +230,7 @@ function SectionC() {
 function Toggle() {
   // D1.
   // Declare a state variable called isVisible with an initial value of false.
-
+  const [isVisible, setisVisible] = useState(false)
   // D2.
   // Add a button that toggles isVisible between true and false when clicked.
   // The button label should change based on the current state —
@@ -236,13 +255,22 @@ function Toggle() {
   //          What is the difference between && and a ternary?
   //          When would you use one over the other?
   //
-  //          answer:
+  //          answer: 1. '&&' It evaluates the expression on the left. If the left side is true, it renders the JSX on the right side. 
+  //          If the left side is false, it skips the right side entirely and renders nothing.
+  //            2. '&&' Handles one specific outcome. It either shows the element or shows nothing at all.
+  //            Ternary is like an if/else statement. It shows option A if true, and option B if false
+  //            3. '&&' You only care about the "true" condition and want to render absolutely nothing when the condition is false.
+  //          You ternary when you need a fallback plan when the condition is false.
 
+   const buttonLabel = isVisible ? "Hide Message" : "Show Message";
   return (
     <div>
-      {/* D2: button goes here */}
+      <button onClick={() => setisVisible(!isVisible)} style={{color:"black"}}>{buttonLabel} </button>
 
-      {/* D3 / D4: conditional message goes here */}
+      {isVisible  
+      ? <p>Now you see me!</p>
+      :<p>I am hidden</p>
+      }
 
     </div>
   )
@@ -269,7 +297,7 @@ function SectionD() {
 //   function passed down the same way.
 // ------------------------------------------------------------
 
-function LightSwitchButton(/* E3: accept a prop here */) {
+function LightSwitchButton(props) {
   // E3.
   // This component should accept one prop — a function.
   // Render a single button. When clicked, it should call that function.
@@ -277,18 +305,22 @@ function LightSwitchButton(/* E3: accept a prop here */) {
 
   return (
     <div>
-      {/* E3: button goes here */}
-
+      <button onClick={props.toggleLight} style={{color:"black"}}>Swicth</button>
     </div>
   )
 }
 
+
 function LightSwitch() {
   // E1.
   // Declare a state variable called isOn with an initial value of false.
-
+  const [isOn, setisOn] = useState(false)
   // E2.
   // Write a function that flips isOn to the opposite value.
+
+  const handleToggle = () => {
+    setisOn(!isOn);
+  };
 
   // E4.
   // Render LightSwitchButton below, passing your flip function from E2
@@ -308,9 +340,10 @@ function LightSwitch() {
 
   return (
     <div>
-      {/* E5: on/off sentence goes here */}
+      <p>The light is: {isOn ? "ON" : "OFF"}</p>
 
-      {/* E4: LightSwitchButton goes here */}
+         <LightSwitchButton toggleLight={handleToggle} />
+      
 
     </div>
   )
@@ -335,11 +368,14 @@ function SectionE() {
 //   stop that default behavior before doing anything else.
 // ------------------------------------------------------------
 
+
 function GreetingForm() {
   // F1.
   // Declare a state variable called nameInput, starting as an empty string.
   // Declare a second state variable called greeting, starting as an empty string.
 
+  const [nameInput, setNameInput] = useState("");
+  const [greeting, setGreeting] = useState("");
   // F2.
   // Add a <form> containing a controlled text input wired to nameInput,
   // and a submit button.
@@ -352,6 +388,10 @@ function GreetingForm() {
   //
   // Why: preventDefault() stops the browser's default reload-the-page
   //      behavior, so your state survives the submit.
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setGreeting(`Hello, ${nameInput}!`);
+  }
 
   // F4.
   // Wire your function from F3 to the form's submit event.
@@ -366,13 +406,21 @@ function GreetingForm() {
   // EXPLAIN: What happens if you submit a form without calling preventDefault()?
   //          Why does that matter for a component that holds state?
   //
-  //          answer:
+  //          answer: 1.  The browser treats the form submission the old-fashioned way: it sends an HTTP request and reloads the page
+  //          2. Because the if it doesn't have it the browser will reload and all the information previously entered will be gone.
 
   return (
     <div>
-      {/* F2: form goes here */}
+      <form onSubmit={handleSubmit}>
+        <input
+          value={nameInput}
+          onChange={(e) => setNameInput(e.target.value)}
+          placeholder="Enter your name"
+        />
+        <button type="submit" style={{color: "black"}}>Submit</button>
+      </form>
 
-      {/* F5: greeting goes here */}
+      <p>{greeting}</p>
 
     </div>
   )
@@ -403,19 +451,23 @@ function SnackList() {
   // G1.
   // Declare a state variable called snacks, an array starting with two
   // or three snack name strings of your choice.
-
+  const [snacks, setSnacks] = useState(["Chips", "Cookies", "Popcorn"]);
   // G2.
   // Add a button labeled "Add Pretzels". When clicked, it should add the
   // string "Pretzels" to the snacks array — without mutating the original
   // array. Look into the spread operator for this.
-
+function addPretzel() {
+    setSnacks([...snacks, "Pretzels"]);
+  }
   // G3.
   // Display each snack using .map(). Each one needs a key, and its own
   // "Remove" button that removes just that snack from the array.
   //
   // Hint: array.filter() lets you build a new array that excludes one
   //       specific item.
-
+function removeSnack(indexToRemove) {
+    setSnacks(snacks.filter((_, i) => i !== indexToRemove));
+  }
   // G4.
   // If snacks is empty, display "No snacks left." instead of the list.
   //
@@ -430,9 +482,20 @@ function SnackList() {
 
   return (
     <div>
-      {/* G2: Add Pretzels button goes here */}
+       <button onClick={addPretzel} style={{color:"black"}}>Add Pretzels</button>
 
-      {/* G3 / G4: snack list or empty message goes here */}
+      {snacks.length === 0 ? (
+        <p>No snacks left.</p>
+      ) : (
+        <ul>
+          {snacks.map((snack, i) => (
+            <li key={i}>
+              {snack}
+              <button onClick={() => removeSnack(i)} style={{color:"black"}}>Remove</button>
+            </li>
+          ))}
+        </ul>
+      )}
 
     </div>
   )
